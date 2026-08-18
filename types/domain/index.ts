@@ -118,6 +118,7 @@ export interface TimelineEvent {
 
 export interface User {
   id: string;
+  clerkId?: string;
   email: string;
   displayName: string;
   username?: string;

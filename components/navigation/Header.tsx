@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { UserButton } from '@clerk/nextjs';
 import { useHoekdex } from '@/context/hoekdex-context';
 import { Sparkles, ShieldCheck, User as UserIcon, Plus, Sun, Moon, Monitor } from 'lucide-react';
 import { PrivacyLock } from '../shared/PrivacyLock';
@@ -31,7 +32,7 @@ export function Header({ onOpenAddPerson }: HeaderProps) {
           </div>
         </div>
 
-        {/* Right Section: Theme Switcher, XP Pill, Add Person, Profile */}
+        {/* Right Section: Theme Switcher, XP Pill, Add Person, Profile & UserButton */}
         <div className="flex items-center gap-2 sm:gap-3">
           <PrivacyLock size="sm" showLabel />
 
@@ -127,21 +128,31 @@ export function Header({ onOpenAddPerson }: HeaderProps) {
             </button>
           )}
 
-          {/* Avatar Link */}
-          <Link
-            href="/profile"
-            className="w-8 h-8 rounded-full overflow-hidden border border-[#E7E0D8] dark:border-[#393939] hover:border-[#fe1e34] transition-colors flex-shrink-0"
-            title="View Profile"
-          >
-            {user.avatarUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={user.avatarUrl} alt={user.displayName} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full bg-[#F5EFE6] dark:bg-[#262525] flex items-center justify-center text-stone-500 dark:text-[#B5B2B2]">
-                <UserIcon className="w-4 h-4" />
-              </div>
-            )}
-          </Link>
+          {/* User Profile Card & Clerk UserButton */}
+          <div className="flex items-center gap-2">
+            <Link
+              href="/profile"
+              className="w-8 h-8 rounded-full overflow-hidden border border-[#E7E0D8] dark:border-[#393939] hover:border-[#fe1e34] transition-colors flex-shrink-0"
+              title="View Profile"
+            >
+              {user.avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={user.avatarUrl} alt={user.displayName} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-[#F5EFE6] dark:bg-[#262525] flex items-center justify-center text-stone-500 dark:text-[#B5B2B2]">
+                  <UserIcon className="w-4 h-4" />
+                </div>
+              )}
+            </Link>
+
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: 'w-8 h-8 rounded-full border border-[#fe1e34]/40',
+                },
+              }}
+            />
+          </div>
         </div>
       </div>
     </header>

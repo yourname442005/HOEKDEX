@@ -1,35 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useHoekdex } from '@/context/hoekdex-context';
-import { Lock, Mail, Sparkles, ArrowRight, ShieldCheck, Check } from 'lucide-react';
+import React from 'react';
+import { SignUp } from '@clerk/nextjs';
+import { Sparkles, ShieldCheck } from 'lucide-react';
 
 export function SignupView() {
-  const router = useRouter();
-  const { showToast } = useHoekdex();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [agreeTerms, setAgreeTerms] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!agreeTerms) {
-      showToast('Please accept the privacy terms to continue', 'error');
-      return;
-    }
-    setIsLoading(true);
-    setTimeout(() => {
-      showToast('Account created! Setting up your vault...', 'success');
-      router.push('/onboarding');
-    }, 400);
-  };
-
   return (
     <div className="min-h-screen bg-[var(--bg-background)] flex items-center justify-center p-4 transition-colors duration-200">
-      <div className="w-full max-w-md bg-[#FFFDF9] dark:bg-[#171617] border border-[#E7E0D8] dark:border-[#393939] rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 relative overflow-hidden">
+      <div className="w-full max-w-md flex flex-col items-center space-y-6 relative">
         {/* Ambient glow */}
         <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#fe1e34]/15 rounded-full blur-3xl pointer-events-none" />
 
@@ -46,83 +24,23 @@ export function SignupView() {
           </p>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-[#D4D2D2]">
-              Email Address
-            </label>
-            <div className="relative">
-              <Mail className="w-4 h-4 text-stone-400 dark:text-[#525252] absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="email"
-                required
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-[#F5EFE6] dark:bg-[#262525] border border-[#E7E0D8] dark:border-[#393939] focus:border-[#fe1e34] rounded-xl text-[#1C1917] dark:text-[#FCFCFC] text-sm focus:outline-none placeholder-stone-400 dark:placeholder-stone-600"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-[#D4D2D2]">
-              Create Password
-            </label>
-            <div className="relative">
-              <Lock className="w-4 h-4 text-stone-400 dark:text-[#525252] absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="password"
-                required
-                placeholder="At least 8 characters"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-[#F5EFE6] dark:bg-[#262525] border border-[#E7E0D8] dark:border-[#393939] focus:border-[#fe1e34] rounded-xl text-[#1C1917] dark:text-[#FCFCFC] text-sm focus:outline-none placeholder-stone-400 dark:placeholder-stone-600"
-              />
-            </div>
-          </div>
-
-          {/* Privacy Guarantee Checkbox */}
-          <div className="flex items-start gap-2.5 pt-1">
-            <input
-              type="checkbox"
-              id="terms"
-              checked={agreeTerms}
-              onChange={(e) => setAgreeTerms(e.target.checked)}
-              className="mt-0.5 w-4 h-4 rounded border-stone-300 dark:border-[#393939] bg-[#F5EFE6] dark:bg-[#262525] text-[#fe1e34] focus:ring-[#fe1e34] cursor-pointer"
-            />
-            <label htmlFor="terms" className="text-xs text-stone-700 dark:text-[#D4D2D2] leading-tight cursor-pointer">
-              I understand that my private journal entries are encrypted and never shared on public leaderboards.
-            </label>
-          </div>
-
-          <div className="pt-2">
-            <button
-              type="submit"
-              disabled={isLoading || !email || !password}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-[#fe1e34] hover:bg-[#e0182d] active:scale-95 text-white font-extrabold text-sm shadow-lg shadow-[#fe1e34]/20 transition-all cursor-pointer disabled:opacity-50"
-            >
-              <span>{isLoading ? 'Creating Account...' : 'Get Started'}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </form>
+        {/* Clerk Sign Up Component */}
+        <div className="w-full flex justify-center">
+          <SignUp
+            routing="path"
+            path="/signup"
+            signInUrl="/login"
+            fallbackRedirectUrl="/onboarding"
+          />
+        </div>
 
         {/* Security badge */}
-        <div className="pt-2 border-t border-[#E7E0D8] dark:border-[#393939] text-center">
+        <div className="pt-2 text-center">
           <div className="inline-flex items-center gap-1.5 text-[11px] text-stone-500 dark:text-[#B5B2B2] font-medium">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>Zero Data Selling · Complete User Sovereignty</span>
           </div>
         </div>
-
-        {/* Switch to Sign In */}
-        <p className="text-center text-xs text-stone-500 dark:text-[#B5B2B2]">
-          Already have an account?{' '}
-          <Link href="/login" className="text-[#fe1e34] font-bold hover:underline">
-            Sign In
-          </Link>
-        </p>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { useUser } from '@clerk/nextjs';
 import {
   Person,
   User,
@@ -97,6 +98,8 @@ const HoekdexContext = createContext<HoekdexContextType | null>(null);
 const STORAGE_PREFIX = 'hoekdex_mvp_v1_';
 
 export function HoekdexProvider({ children }: { children: React.ReactNode }) {
+  const { isLoaded: isClerkLoaded, user: clerkUser } = useUser();
+
   const [user, setUser] = useState<User>(INITIAL_USER);
   const [people, setPeople] = useState<Person[]>(INITIAL_PEOPLE);
   const [achievements, setAchievements] = useState<Achievement[]>(INITIAL_ACHIEVEMENTS);
@@ -111,27 +114,56 @@ export function HoekdexProvider({ children }: { children: React.ReactNode }) {
   const [resolvedTheme, setResolvedTheme] = useState<'dark' | 'light'>('dark');
   const [isHydrated, setIsHydrated] = useState(false);
 
-  // Load from localStorage on mount
+  // Load from localStorage & sync with Clerk identity
   useEffect(() => {
     const timer = setTimeout(() => {
       try {
-        const savedUser = localStorage.getItem(`${STORAGE_PREFIX}user`);
-        const savedPeople = localStorage.getItem(`${STORAGE_PREFIX}people`);
-        const savedAchievements = localStorage.getItem(`${STORAGE_PREFIX}achievements`);
-        const savedTimeline = localStorage.getItem(`${STORAGE_PREFIX}timeline`);
-        const savedFriends = localStorage.getItem(`${STORAGE_PREFIX}friends`);
-        const savedRequests = localStorage.getItem(`${STORAGE_PREFIX}friend_requests`);
         const savedTheme = localStorage.getItem(`${STORAGE_PREFIX}theme_mode`) as 'dark' | 'light' | 'system' | null;
+        if (savedTheme && ['dark', 'light', 'system'].includes(savedTheme)) {
+          setThemeModeState(savedTheme);
+        }
 
-        if (savedUser) setUser(JSON.parse(savedUser));
+        const userPrefix = clerkUser ? `${STORAGE_PREFIX}${clerkUser.id}_` : STORAGE_PREFIX;
+        const savedUser = localStorage.getItem(`${userPrefix}user`);
+        const savedPeople = localStorage.getItem(`${userPrefix}people`);
+        const savedAchievements = localStorage.getItem(`${userPrefix}achievements`);
+        const savedTimeline = localStorage.getItem(`${userPrefix}timeline`);
+        const savedFriends = localStorage.getItem(`${userPrefix}friends`);
+        const savedRequests = localStorage.getItem(`${userPrefix}friend_requests`);
+
+        const baseUser: User = savedUser ? JSON.parse(savedUser) : INITIAL_USER;
+
+        if (clerkUser) {
+          const email = clerkUser.primaryEmailAddress?.emailAddress || baseUser.email;
+          const displayName =
+            clerkUser.fullName ||
+            clerkUser.firstName ||
+            baseUser.displayName ||
+            'Explorer';
+          const username =
+            clerkUser.username ||
+            baseUser.username ||
+            email.split('@')[0];
+          const avatarUrl = clerkUser.imageUrl || baseUser.avatarUrl;
+
+          setUser({
+            ...baseUser,
+            id: clerkUser.id,
+            clerkId: clerkUser.id,
+            email,
+            displayName,
+            username,
+            avatarUrl,
+          });
+        } else if (savedUser) {
+          setUser(baseUser);
+        }
+
         if (savedPeople) setPeople(JSON.parse(savedPeople));
         if (savedAchievements) setAchievements(JSON.parse(savedAchievements));
         if (savedTimeline) setTimeline(JSON.parse(savedTimeline));
         if (savedFriends) setFriends(JSON.parse(savedFriends));
         if (savedRequests) setFriendRequests(JSON.parse(savedRequests));
-        if (savedTheme && ['dark', 'light', 'system'].includes(savedTheme)) {
-          setThemeModeState(savedTheme);
-        }
       } catch (e) {
         console.error('Failed loading saved Hoekdex data:', e);
       }
@@ -139,18 +171,19 @@ export function HoekdexProvider({ children }: { children: React.ReactNode }) {
     }, 0);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isClerkLoaded, clerkUser]);
 
   // Save to localStorage when state changes
   useEffect(() => {
     if (!isHydrated) return;
     try {
-      localStorage.setItem(`${STORAGE_PREFIX}user`, JSON.stringify(user));
-      localStorage.setItem(`${STORAGE_PREFIX}people`, JSON.stringify(people));
-      localStorage.setItem(`${STORAGE_PREFIX}achievements`, JSON.stringify(achievements));
-      localStorage.setItem(`${STORAGE_PREFIX}timeline`, JSON.stringify(timeline));
-      localStorage.setItem(`${STORAGE_PREFIX}friends`, JSON.stringify(friends));
-      localStorage.setItem(`${STORAGE_PREFIX}friend_requests`, JSON.stringify(friendRequests));
+      const keyPrefix = user.clerkId ? `${STORAGE_PREFIX}${user.clerkId}_` : STORAGE_PREFIX;
+      localStorage.setItem(`${keyPrefix}user`, JSON.stringify(user));
+      localStorage.setItem(`${keyPrefix}people`, JSON.stringify(people));
+      localStorage.setItem(`${keyPrefix}achievements`, JSON.stringify(achievements));
+      localStorage.setItem(`${keyPrefix}timeline`, JSON.stringify(timeline));
+      localStorage.setItem(`${keyPrefix}friends`, JSON.stringify(friends));
+      localStorage.setItem(`${keyPrefix}friend_requests`, JSON.stringify(friendRequests));
       localStorage.setItem(`${STORAGE_PREFIX}theme_mode`, themeMode);
     } catch (e) {
       console.error('Failed saving Hoekdex state:', e);
@@ -752,6 +785,13 @@ export function HoekdexProvider({ children }: { children: React.ReactNode }) {
 
   const updateUserProfile = async (updates: Partial<User>): Promise<void> => {
     setUser((prev) => ({ ...prev, ...updates }));
+    if (clerkUser && updates.displayName) {
+      try {
+        await clerkUser.update({ firstName: updates.displayName });
+      } catch (err) {
+        console.error('Failed updating Clerk user profile:', err);
+      }
+    }
     showToast('Profile updated successfully', 'success');
   };
 
@@ -765,6 +805,13 @@ export function HoekdexProvider({ children }: { children: React.ReactNode }) {
   };
 
   const deleteAccount = async (): Promise<void> => {
+    try {
+      if (clerkUser) {
+        await clerkUser.delete();
+      }
+    } catch (err) {
+      console.error('Error deleting Clerk account:', err);
+    }
     localStorage.clear();
     setUser({ ...INITIAL_USER, totalXp: 0 });
     setPeople([]);
