@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -34,29 +35,96 @@
   --color-xp-muted: #FFE4E6;
   --color-achievement: #D97706;
 
+  /* Editorial Dark Landing Page Tokens */
+  --color-void-canvas: #080808;
+  --color-absolute-black: #000000;
+  --color-charcoal-plate: #171617;
+  --color-smoke-plate: #262525;
+  --color-graphite-lift: #393939;
+  --color-bone-white: #fcfcfc;
+  --color-linen: #f3efef;
+  --color-ash: #d4d2d2;
+  --color-pebble: #b5b2b2;
+  --color-iron: #525252;
+  --color-arterial-red: #fe1e34;
+  --color-crimson-pure: #ff0000;
+
+  --font-kmr: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-editorial: 'Playfair Display', Georgia, serif;
+  --font-dirtyline: 'Playfair Display', Georgia, serif;
+
   --radius-button: 0.75rem;
   --radius-card: 1.25rem;
   --radius-hero: 1.5rem;
   --radius-badge: 9999px;
   --radius-input: 0.75rem;
   --radius-control: 0.5rem;
+
+  --radius-editorial-sm: 3px;
+  --radius-editorial-card: 8px;
+  --radius-editorial-lg: 14.4px;
 }
 
 @layer base {
-  :root {
-    /* Main Background & Surfaces */
+  :root,
+  html.dark {
+    /* Dark Theme Default Tokens (Section 2) */
+    --bg-background: #080808;
+    --bg-surface: #171617;
+    --bg-surface-muted: #262525;
+    --bg-surface-elevated: #393939;
+
+    /* Text Colors */
+    --text-foreground: #FCFCFC;
+    --text-foreground-secondary: #D4D2D2;
+    --text-foreground-muted: #B5B2B2;
+    --text-foreground-subtle: #525252;
+
+    /* Brand Accents */
+    --color-primary: #FE1E34;
+    --color-primary-hover: #E0182D;
+    --color-secondary: #F43F5E;
+    --color-accent-light: #392026;
+
+    /* Borders */
+    --border-main: #393939;
+    --border-subtle: #262525;
+
+    /* Status Colors */
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #FE1E34;
+
+    /* Gamification Tokens */
+    --color-xp: #FE1E34;
+    --color-achievement: #F59E0B;
+
+    /* Tier Colors */
+    --tier-beginner: #B5B2B2;
+    --tier-good: #10B981;
+    --tier-elite: #3B82F6;
+    --tier-master: #8B5CF6;
+    --tier-legendary: #FE1E34;
+
+    color-scheme: dark;
+  }
+
+  html.light {
+    /* Light Theme Tokens (Section 4) */
     --bg-background: #FAF5EF;
     --bg-surface: #FFFDF9;
-    --bg-surface-elevated: #FFFFFF;
     --bg-surface-muted: #F3ECE2;
+    --bg-surface-elevated: #FFFFFF;
 
     /* Text Colors */
     --text-foreground: #1C1917;
+    --text-foreground-secondary: #44403C;
     --text-foreground-muted: #78716C;
+    --text-foreground-subtle: #A8A29E;
 
     /* Brand Accents */
-    --color-primary: #E11D48;
-    --color-primary-hover: #BE123C;
+    --color-primary: #FE1E34;
+    --color-primary-hover: #E0182D;
     --color-secondary: #F43F5E;
     --color-accent-light: #FFE4E6;
 
@@ -67,18 +135,20 @@
     /* Status Colors */
     --success: #10B981;
     --warning: #F59E0B;
-    --error: #E11D48;
+    --error: #FE1E34;
 
-    /* Gamification Specific Tokens */
-    --color-xp: #E11D48;
+    /* Gamification Tokens */
+    --color-xp: #FE1E34;
     --color-achievement: #D97706;
-    
+
     /* Tier Colors */
     --tier-beginner: #78716C;
     --tier-good: #059669;
     --tier-elite: #2563EB;
     --tier-master: #7C3AED;
-    --tier-legendary: #E11D48;
+    --tier-legendary: #FE1E34;
+
+    color-scheme: light;
   }
 
   body {
@@ -161,50 +231,50 @@
     letter-spacing: -0.02em;
   }
 
-  /* Card Variants Language */
+  /* Card Variants Language - Responsive to Theme Variables */
   .card-primary {
-    background-color: #FFFDF9;
-    border: 1px solid #E7E0D8;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-main);
     border-radius: 1.25rem;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   }
 
   .card-secondary {
-    background-color: #F3ECE2;
-    border: 1px solid #E7E0D8;
+    background-color: var(--bg-surface-muted);
+    border: 1px solid var(--border-main);
     border-radius: 1.25rem;
   }
 
   .card-interactive {
-    background-color: #FFFDF9;
-    border: 1px solid #E7E0D8;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-main);
     border-radius: 1.25rem;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     cursor: pointer;
   }
   .card-interactive:hover {
-    border-color: #FB7185;
-    background-color: #FFF7ED;
+    border-color: var(--color-primary);
+    background-color: var(--bg-surface-elevated);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px 0 rgba(225, 29, 72, 0.08);
+    box-shadow: 0 4px 12px 0 rgba(254, 30, 52, 0.15);
   }
   .card-interactive:active {
     transform: translateY(0);
   }
 
   .card-gamification {
-    background: linear-gradient(135deg, #FFFDF9 0%, #FFF1F2 100%);
-    border: 1px solid #FECDD3;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--color-primary);
     border-radius: 1.25rem;
-    box-shadow: 0 2px 8px 0 rgba(225, 29, 72, 0.06);
+    box-shadow: 0 2px 8px 0 rgba(254, 30, 52, 0.12);
   }
 
   .card-memory {
-    background-color: #FFFDF9;
-    border: 1px solid #E7E0D8;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-main);
     border-radius: 1.25rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
   }
 }
 
@@ -214,14 +284,14 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FAF5EF;
+  background: var(--bg-background);
 }
 ::-webkit-scrollbar-thumb {
-  background: #D7CEC5;
+  background: var(--border-main);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #BDB2A6;
+  background: var(--color-primary);
 }
 
 /* Floating animation for XP gain badge */

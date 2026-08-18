@@ -47,6 +47,9 @@ interface HoekdexContextType {
   recentXpGain: { amount: number; key: number } | null;
   achievementModalPayload: Achievement | null;
   toasts: ToastItem[];
+  themeMode: 'dark' | 'light' | 'system';
+  resolvedTheme: 'dark' | 'light';
+  setThemeMode: (mode: 'dark' | 'light' | 'system') => void;
   
   // Actions
   addPerson: (data: {
@@ -104,6 +107,8 @@ export function HoekdexProvider({ children }: { children: React.ReactNode }) {
   const [recentXpGain, setRecentXpGain] = useState<{ amount: number; key: number } | null>(null);
   const [achievementModalPayload, setAchievementModalPayload] = useState<Achievement | null>(null);
   const [toasts, setToasts] = useState<ToastItem[]>([]);
+  const [themeMode, setThemeModeState] = useState<'dark' | 'light' | 'system'>('dark');
+  const [resolvedTheme, setResolvedTheme] = useState<'dark' | 'light'>('dark');
   const [isHydrated, setIsHydrated] = useState(false);
 
   // Load from localStorage on mount
@@ -116,6 +121,7 @@ export function HoekdexProvider({ children }: { children: React.ReactNode }) {
         const savedTimeline = localStorage.getItem(`${STORAGE_PREFIX}timeline`);
         const savedFriends = localStorage.getItem(`${STORAGE_PREFIX}friends`);
         const savedRequests = localStorage.getItem(`${STORAGE_PREFIX}friend_requests`);
+        const savedTheme = localStorage.getItem(`${STORAGE_PREFIX}theme_mode`) as 'dark' | 'light' | 'system' | null;
 
         if (savedUser) setUser(JSON.parse(savedUser));
         if (savedPeople) setPeople(JSON.parse(savedPeople));
@@ -123,6 +129,9 @@ export function HoekdexProvider({ children }: { children: React.ReactNode }) {
         if (savedTimeline) setTimeline(JSON.parse(savedTimeline));
         if (savedFriends) setFriends(JSON.parse(savedFriends));
         if (savedRequests) setFriendRequests(JSON.parse(savedRequests));
+        if (savedTheme && ['dark', 'light', 'system'].includes(savedTheme)) {
+          setThemeModeState(savedTheme);
+        }
       } catch (e) {
         console.error('Failed loading saved Hoekdex data:', e);
       }
@@ -142,10 +151,47 @@ export function HoekdexProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem(`${STORAGE_PREFIX}timeline`, JSON.stringify(timeline));
       localStorage.setItem(`${STORAGE_PREFIX}friends`, JSON.stringify(friends));
       localStorage.setItem(`${STORAGE_PREFIX}friend_requests`, JSON.stringify(friendRequests));
+      localStorage.setItem(`${STORAGE_PREFIX}theme_mode`, themeMode);
     } catch (e) {
       console.error('Failed saving Hoekdex state:', e);
     }
-  }, [user, people, achievements, timeline, friends, friendRequests, isHydrated]);
+  }, [user, people, achievements, timeline, friends, friendRequests, themeMode, isHydrated]);
+
+  // Sync theme mode to DOM classes
+  useEffect(() => {
+    const applyTheme = () => {
+      let isDark = true;
+      if (themeMode === 'system') {
+        isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      } else {
+        isDark = themeMode === 'dark';
+      }
+
+      setResolvedTheme(isDark ? 'dark' : 'light');
+
+      const root = document.documentElement;
+      if (isDark) {
+        root.classList.add('dark');
+        root.classList.remove('light');
+      } else {
+        root.classList.add('light');
+        root.classList.remove('dark');
+      }
+    };
+
+    applyTheme();
+
+    if (themeMode === 'system') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const listener = () => applyTheme();
+      mediaQuery.addEventListener('change', listener);
+      return () => mediaQuery.removeEventListener('change', listener);
+    }
+  }, [themeMode]);
+
+  const setThemeMode = useCallback((mode: 'dark' | 'light' | 'system') => {
+    setThemeModeState(mode);
+  }, []);
 
   const showToast = useCallback((
     message: string,
@@ -752,6 +798,9 @@ export function HoekdexProvider({ children }: { children: React.ReactNode }) {
         recentXpGain,
         achievementModalPayload,
         toasts,
+        themeMode,
+        resolvedTheme,
+        setThemeMode,
         addPerson,
         updatePerson,
         deletePerson,

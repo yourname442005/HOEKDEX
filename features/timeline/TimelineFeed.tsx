@@ -49,33 +49,38 @@ export function TimelineFeed() {
   return (
     <div className="space-y-6 pb-24 lg:pb-12 max-w-5xl mx-auto">
       {/* Header */}
-      <PageHeader
-        title="Personal Memory Journal"
-        description="A private chronological history of your dating memories, milestone moments, and achievements."
-        showPrivacyLock
-        privacyTooltip="Your timeline entries are completely private and confidential."
-        badge={
-          <span className="px-3 py-1 text-xs font-black bg-rose-500/10 border border-rose-500/25 text-rose-600 rounded-full">
-            {timeline.length} Journal Entries
-          </span>
-        }
-      />
+      <div>
+        <span className="text-[10px] font-mono text-[#fe1e34] uppercase tracking-widest block font-bold mb-1">
+          // YOUR MOMENTS
+        </span>
+        <PageHeader
+          title="Personal Memory Journal"
+          description="A private chronological history of your dating memories, milestone moments, and achievements."
+          showPrivacyLock
+          privacyTooltip="Your timeline entries are completely private and confidential."
+          badge={
+            <span className="px-3 py-1 text-xs font-black bg-[#fe1e34]/10 border border-[#fe1e34]/25 text-[#fe1e34] rounded-full">
+              {timeline.length} Journal Entries
+            </span>
+          }
+        />
+      </div>
 
       {/* Filter Control Bar */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-[#FFFDF9] border border-[#E7E0D8] space-y-3.5 shadow-xs">
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#FFFDF9] dark:bg-[#171617] border border-[#E7E0D8] dark:border-[#393939] space-y-3.5 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           {/* Person Selector Filter */}
           <div className="flex items-center gap-2">
-            <BookMarked className="w-4 h-4 text-rose-600" />
-            <span className="text-xs font-bold text-stone-600">Filter Person:</span>
+            <BookMarked className="w-4 h-4 text-[#fe1e34]" />
+            <span className="text-xs font-bold text-stone-600 dark:text-[#B5B2B2]">Filter Person:</span>
             <select
               value={selectedPersonId}
               onChange={(e) => setSelectedPersonId(e.target.value)}
-              className="px-3.5 py-1.5 bg-[#F5EFE6] border border-[#E7E0D8] rounded-xl text-xs font-bold text-[#1C1917] focus:outline-none focus:border-rose-500 cursor-pointer"
+              className="px-3.5 py-1.5 bg-[#F5EFE6] dark:bg-[#262525] border border-[#E7E0D8] dark:border-[#393939] rounded-xl text-xs font-bold text-[#1C1917] dark:text-[#FCFCFC] focus:outline-none focus:border-[#fe1e34] cursor-pointer"
             >
-              <option value="all">All Vault Records ({people.length})</option>
+              <option value="all" className="dark:bg-[#171617]">All Vault Records ({people.length})</option>
               {people.map((p) => (
-                <option key={p.id} value={p.id}>
+                <option key={p.id} value={p.id} className="dark:bg-[#171617]">
                   {p.name}
                 </option>
               ))}
@@ -90,7 +95,7 @@ export function TimelineFeed() {
                 setSelectedEventType('all');
                 setSelectedPersonId('all');
               }}
-              className="text-xs font-bold text-rose-600 hover:text-rose-500 cursor-pointer"
+              className="text-xs font-bold text-[#fe1e34] hover:underline cursor-pointer"
             >
               Clear Journal Filters
             </button>
@@ -107,8 +112,8 @@ export function TimelineFeed() {
               className={cn(
                 'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer select-none',
                 selectedEventType === type.id
-                  ? 'bg-rose-600 text-white shadow-sm shadow-rose-600/20'
-                  : 'bg-[#F5EFE6] text-stone-600 hover:text-stone-900 border border-[#E7E0D8]'
+                  ? 'bg-[#fe1e34] text-white shadow-sm shadow-[#fe1e34]/20'
+                  : 'bg-[#F5EFE6] dark:bg-[#262525] text-stone-600 dark:text-[#B5B2B2] hover:text-stone-900 dark:hover:text-[#FCFCFC] border border-[#E7E0D8] dark:border-[#393939]'
               )}
             >
               {type.icon}
@@ -131,7 +136,7 @@ export function TimelineFeed() {
               <button
                 type="button"
                 onClick={() => setVisibleLimit((prev) => prev + 20)}
-                className="px-6 py-2.5 rounded-full bg-[#FFFDF9] hover:bg-[#F5EFE6] border border-[#E7E0D8] text-xs font-extrabold text-stone-700 transition-colors cursor-pointer shadow-xs"
+                className="px-6 py-2.5 rounded-full bg-[#FFFDF9] dark:bg-[#171617] hover:bg-[#F5EFE6] dark:hover:bg-[#262525] border border-[#E7E0D8] dark:border-[#393939] text-xs font-extrabold text-stone-700 dark:text-[#D4D2D2] transition-colors cursor-pointer shadow-xs"
               >
                 Load Older Memories ({filteredEvents.length - visibleLimit} remaining)
               </button>

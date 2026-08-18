@@ -76,25 +76,25 @@ export function TimelineEventCard({ event }: TimelineEventCardProps) {
   const getEventBorderClass = () => {
     switch (event.eventType) {
       case 'person_added':
-        return 'border-blue-200/80 hover:border-blue-400 bg-gradient-to-r from-[#FFFDF9] via-[#FFFDF9] to-blue-50/30';
+        return 'border-blue-200/80 dark:border-blue-900/60 hover:border-blue-400 bg-gradient-to-r from-[#FFFDF9] dark:from-[#171617] via-[#FFFDF9] dark:via-[#171617] to-blue-50/30 dark:to-[#262525]';
       case 'milestone_unlocked':
-        return 'border-rose-300/80 hover:border-rose-400 bg-gradient-to-r from-[#FFFDF9] via-[#FFFDF9] to-rose-50/40';
+        return 'border-[#fe1e34]/30 hover:border-[#fe1e34] bg-gradient-to-r from-[#FFFDF9] dark:from-[#171617] via-[#FFFDF9] dark:via-[#171617] to-rose-50/40 dark:to-[#262525]';
       case 'tier_change':
-        return 'border-amber-300/80 hover:border-amber-400 bg-gradient-to-r from-[#FFFDF9] via-[#FFFDF9] to-amber-50/30';
+        return 'border-amber-300/80 dark:border-amber-900/60 hover:border-amber-400 bg-gradient-to-r from-[#FFFDF9] dark:from-[#171617] via-[#FFFDF9] dark:via-[#171617] to-amber-50/30 dark:to-[#262525]';
       case 'achievement_unlocked':
-        return 'border-amber-400/80 hover:border-amber-500 bg-gradient-to-r from-[#FFFDF9] via-[#FFFDF9] to-amber-50/40';
+        return 'border-amber-400/80 dark:border-amber-800/80 hover:border-amber-500 bg-gradient-to-r from-[#FFFDF9] dark:from-[#171617] via-[#FFFDF9] dark:via-[#171617] to-amber-50/40 dark:to-[#262525]';
       case 'note_memory':
-        return 'border-emerald-200/80 hover:border-emerald-400 bg-gradient-to-r from-[#FFFDF9] via-[#FFFDF9] to-emerald-50/30';
+        return 'border-emerald-200/80 dark:border-emerald-900/60 hover:border-emerald-400 bg-gradient-to-r from-[#FFFDF9] dark:from-[#171617] via-[#FFFDF9] dark:via-[#171617] to-emerald-50/30 dark:to-[#262525]';
       default:
-        return 'border-[#E7E0D8] hover:border-stone-400 bg-[#FFFDF9]';
+        return 'border-[#E7E0D8] dark:border-[#393939] hover:border-stone-400 dark:hover:border-stone-500 bg-[#FFFDF9] dark:bg-[#171617]';
     }
   };
 
   return (
     <div className="relative pl-6 sm:pl-8 group">
       {/* Timeline Node Line Connector */}
-      <div className="absolute left-2.5 sm:left-3.5 top-0 bottom-0 w-0.5 bg-[#E7E0D8] group-last:bottom-1/2" />
-      <div className="absolute left-1 sm:left-2 top-5 w-3.5 h-3.5 rounded-full bg-[#FFFDF9] border-2 border-rose-500 z-10 shadow-xs" />
+      <div className="absolute left-2.5 sm:left-3.5 top-0 bottom-0 w-0.5 bg-[#E7E0D8] dark:bg-[#393939] group-last:bottom-1/2" />
+      <div className="absolute left-1 sm:left-2 top-5 w-3.5 h-3.5 rounded-full bg-[#FFFDF9] dark:bg-[#171617] border-2 border-[#fe1e34] z-10 shadow-xs" />
 
       {/* Memory Card */}
       <div className={cn('p-4 sm:p-5 rounded-2xl border transition-all duration-200 shadow-xs hover:-translate-y-0.5', getEventBorderClass())}>
@@ -108,12 +108,12 @@ export function TimelineEventCard({ event }: TimelineEventCardProps) {
               <div>
                 {/* Person Added */}
                 {event.eventType === 'person_added' && (
-                  <p className="text-sm font-extrabold text-[#1C1917]">
+                  <p className="text-sm font-extrabold text-[#1C1917] dark:text-[#FCFCFC]">
                     Recorded{' '}
                     {event.personId ? (
                       <Link
                         href={`/people/${event.personId}`}
-                        className="text-rose-600 hover:underline"
+                        className="text-[#fe1e34] hover:underline"
                       >
                         {event.personName}
                       </Link>
@@ -126,12 +126,12 @@ export function TimelineEventCard({ event }: TimelineEventCardProps) {
 
                 {/* Milestone Unlocked */}
                 {event.eventType === 'milestone_unlocked' && (
-                  <p className="text-sm font-extrabold text-[#1C1917]">
+                  <p className="text-sm font-extrabold text-[#1C1917] dark:text-[#FCFCFC]">
                     Logged &ldquo;{event.activityName}&rdquo; with{' '}
                     {event.personId ? (
                       <Link
                         href={`/people/${event.personId}`}
-                        className="text-rose-600 hover:underline"
+                        className="text-[#fe1e34] hover:underline"
                       >
                         {event.personName}
                       </Link>
@@ -144,7 +144,7 @@ export function TimelineEventCard({ event }: TimelineEventCardProps) {
                 {/* Tier Change */}
                 {event.eventType === 'tier_change' && (
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-sm font-extrabold text-[#1C1917]">
+                    <span className="text-sm font-extrabold text-[#1C1917] dark:text-[#FCFCFC]">
                       Promoted {event.personName} to tier:
                     </span>
                     {event.tier && <TierBadge tier={event.tier} size="sm" />}
@@ -153,12 +153,12 @@ export function TimelineEventCard({ event }: TimelineEventCardProps) {
 
                 {/* Note Memory */}
                 {event.eventType === 'note_memory' && (
-                  <p className="text-sm font-extrabold text-[#1C1917]">
+                  <p className="text-sm font-extrabold text-[#1C1917] dark:text-[#FCFCFC]">
                     Saved private memory note for{' '}
                     {event.personId ? (
                       <Link
                         href={`/people/${event.personId}`}
-                        className="text-rose-600 hover:underline"
+                        className="text-[#fe1e34] hover:underline"
                       >
                         {event.personName}
                       </Link>
@@ -170,7 +170,7 @@ export function TimelineEventCard({ event }: TimelineEventCardProps) {
 
                 {/* Achievement Unlocked */}
                 {event.eventType === 'achievement_unlocked' && (
-                  <p className="text-sm font-extrabold text-amber-700">
+                  <p className="text-sm font-extrabold text-amber-700 dark:text-amber-400">
                     🏆 Trophy Unlocked: &ldquo;{event.achievementTitle}&rdquo;
                   </p>
                 )}
@@ -178,8 +178,8 @@ export function TimelineEventCard({ event }: TimelineEventCardProps) {
 
               {/* XP Badge if earned */}
               {event.xpAwarded ? (
-                <Badge variant="xp" size="sm">
-                  <Sparkles className="w-3 h-3 text-rose-600" />
+                <Badge variant="xp" size="sm" className="bg-[#fe1e34]/10 border border-[#fe1e34]/25 text-[#fe1e34]">
+                  <Sparkles className="w-3 h-3 text-[#fe1e34]" />
                   <span>+{event.xpAwarded} XP</span>
                 </Badge>
               ) : null}
@@ -187,15 +187,15 @@ export function TimelineEventCard({ event }: TimelineEventCardProps) {
 
             {/* Note Snippet */}
             {event.noteText && (
-              <div className="p-3 rounded-xl bg-[#F5EFE6] border border-[#E7E0D8] text-xs text-stone-700 leading-relaxed italic font-medium">
+              <div className="p-3 rounded-xl bg-[#F5EFE6] dark:bg-[#262525] border border-[#E7E0D8] dark:border-[#393939] text-xs text-stone-700 dark:text-[#D4D2D2] leading-relaxed italic font-medium">
                 &ldquo;{event.noteText}&rdquo;
               </div>
             )}
 
             {/* Date & Privacy Indicator */}
-            <div className="flex items-center justify-between gap-2 text-[11px] text-stone-500 pt-1 border-t border-[#E7E0D8]/60">
+            <div className="flex items-center justify-between gap-2 text-[11px] text-stone-500 dark:text-[#B5B2B2] pt-1 border-t border-[#E7E0D8]/60 dark:border-[#393939]">
               <div className="flex items-center gap-1.5 font-medium">
-                <Calendar className="w-3 h-3 text-stone-400" />
+                <Calendar className="w-3 h-3 text-stone-400 dark:text-[#525252]" />
                 <span>{formattedDate}</span>
               </div>
               <PrivacyLock size="sm" />

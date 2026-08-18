@@ -45,7 +45,7 @@ export function PrivacyControlsView() {
       {/* Back Button */}
       <Link
         href="/settings"
-        className="inline-flex items-center gap-2 text-xs font-bold text-stone-600 hover:text-stone-900 bg-[#FFFDF9] border border-[#E7E0D8] px-3 py-1.5 rounded-full transition-colors shadow-xs"
+        className="inline-flex items-center gap-2 text-xs font-bold text-stone-600 dark:text-[#D4D2D2] hover:text-stone-900 dark:hover:text-[#FCFCFC] bg-[#FFFDF9] dark:bg-[#171617] border border-[#E7E0D8] dark:border-[#393939] px-3 py-1.5 rounded-full transition-colors shadow-xs"
       >
         <ArrowLeft className="w-3.5 h-3.5" />
         <span>Back to Settings</span>
@@ -59,12 +59,12 @@ export function PrivacyControlsView() {
       />
 
       {/* Persistent Privacy Info Card */}
-      <div className="p-5 rounded-3xl bg-rose-500/10 border border-rose-500/20 space-y-3 shadow-xs">
+      <div className="p-5 rounded-3xl bg-[#fe1e34]/10 border border-[#fe1e34]/20 space-y-3 shadow-xs">
         <div className="flex items-center gap-2.5">
-          <ShieldCheck className="w-5 h-5 text-emerald-600" />
-          <h3 className="text-sm font-black text-[#1C1917]">What is ALWAYS Private & Confidential</h3>
+          <ShieldCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          <h3 className="text-sm font-black text-[#1C1917] dark:text-[#FCFCFC]">What is ALWAYS Private & Confidential</h3>
         </div>
-        <ul className="text-xs text-stone-700 space-y-1.5 pl-6 list-disc font-medium">
+        <ul className="text-xs text-stone-700 dark:text-[#D4D2D2] space-y-1.5 pl-6 list-disc font-medium">
           <li>Names, nicknames, and contact handles of people in your records.</li>
           <li>Photos and avatars you upload for people you have met.</li>
           <li>All private notes, memories, reflection logs, and conversation details.</li>
@@ -73,14 +73,14 @@ export function PrivacyControlsView() {
       </div>
 
       {/* Social Toggles */}
-      <div className="p-6 rounded-3xl bg-[#FFFDF9] border border-[#E7E0D8] space-y-5 shadow-xs">
-        <h3 className="text-base font-black text-[#1C1917]">Social & Competition Controls</h3>
+      <div className="p-6 rounded-3xl bg-[#FFFDF9] dark:bg-[#171617] border border-[#E7E0D8] dark:border-[#393939] space-y-5 shadow-xs">
+        <h3 className="text-base font-black text-[#1C1917] dark:text-[#FCFCFC]">Social & Competition Controls</h3>
 
         {/* Toggle 1: Leaderboard Participation */}
-        <div className="flex items-center justify-between gap-4 pb-4 border-b border-[#E7E0D8]">
+        <div className="flex items-center justify-between gap-4 pb-4 border-b border-[#E7E0D8] dark:border-[#393939]">
           <div className="space-y-0.5">
-            <p className="text-sm font-bold text-[#1C1917]">Appear on Friend Leaderboards</p>
-            <p className="text-xs text-stone-500">
+            <p className="text-sm font-bold text-[#1C1917] dark:text-[#FCFCFC]">Appear on Friend Leaderboards</p>
+            <p className="text-xs text-stone-500 dark:text-[#B5B2B2]">
               When disabled, your score is completely hidden from all friend leaderboards and rankings.
             </p>
           </div>
@@ -91,7 +91,7 @@ export function PrivacyControlsView() {
             onClick={handleLeaderboardToggle}
             className={cn(
               'w-12 h-6 rounded-full transition-colors relative cursor-pointer flex-shrink-0 p-0.5',
-              leaderboardOptIn ? 'bg-rose-600' : 'bg-stone-200 border border-[#E7E0D8]'
+              leaderboardOptIn ? 'bg-[#fe1e34]' : 'bg-stone-200 dark:bg-[#393939] border border-[#E7E0D8] dark:border-[#525252]'
             )}
           >
             <div
@@ -106,8 +106,8 @@ export function PrivacyControlsView() {
         {/* Toggle 2: Follower XP Visibility */}
         <div className="flex items-center justify-between gap-4">
           <div className="space-y-0.5">
-            <p className="text-sm font-bold text-[#1C1917]">Allow Followers to View Total XP</p>
-            <p className="text-xs text-stone-500">
+            <p className="text-sm font-bold text-[#1C1917] dark:text-[#FCFCFC]">Allow Followers to View Total XP</p>
+            <p className="text-xs text-stone-500 dark:text-[#B5B2B2]">
               Show your aggregate XP number on your friend-facing profile preview card.
             </p>
           </div>
@@ -118,7 +118,7 @@ export function PrivacyControlsView() {
             onClick={handleFollowerXpToggle}
             className={cn(
               'w-12 h-6 rounded-full transition-colors relative cursor-pointer flex-shrink-0 p-0.5',
-              allowFollowerXpView ? 'bg-rose-600' : 'bg-stone-200 border border-[#E7E0D8]'
+              allowFollowerXpView ? 'bg-[#fe1e34]' : 'bg-stone-200 dark:bg-[#393939] border border-[#E7E0D8] dark:border-[#525252]'
             )}
           >
             <div
@@ -132,17 +132,17 @@ export function PrivacyControlsView() {
       </div>
 
       {/* Data Export & Deletion */}
-      <div className="p-6 rounded-3xl bg-[#FFFDF9] border border-[#E7E0D8] space-y-4 shadow-xs">
-        <h3 className="text-base font-black text-[#1C1917]">Data Management & Deletion</h3>
+      <div className="p-6 rounded-3xl bg-[#FFFDF9] dark:bg-[#171617] border border-[#E7E0D8] dark:border-[#393939] space-y-4 shadow-xs">
+        <h3 className="text-base font-black text-[#1C1917] dark:text-[#FCFCFC]">Data Management & Deletion</h3>
 
         {/* Export */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-[#F5EFE6] border border-[#E7E0D8]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-[#F5EFE6] dark:bg-[#262525] border border-[#E7E0D8] dark:border-[#393939]">
           <div className="space-y-0.5">
             <div className="flex items-center gap-2">
-              <Download className="w-4 h-4 text-rose-600" />
-              <p className="text-sm font-bold text-[#1C1917]">Export Private Journal Data</p>
+              <Download className="w-4 h-4 text-[#fe1e34]" />
+              <p className="text-sm font-bold text-[#1C1917] dark:text-[#FCFCFC]">Export Private Journal Data</p>
             </div>
-            <p className="text-xs text-stone-500">
+            <p className="text-xs text-stone-500 dark:text-[#B5B2B2]">
               Download all your recorded people, timeline entries, notes, and milestones in JSON format.
             </p>
           </div>
@@ -150,20 +150,20 @@ export function PrivacyControlsView() {
           <button
             type="button"
             onClick={() => setIsExportDialogOpen(true)}
-            className="px-4 py-2 text-xs font-bold text-white bg-rose-600 hover:bg-rose-500 rounded-full shadow-md shadow-rose-600/20 transition-colors self-start sm:self-auto cursor-pointer"
+            className="px-4 py-2 text-xs font-bold text-white bg-[#fe1e34] hover:bg-[#e0182d] rounded-full shadow-md shadow-[#fe1e34]/20 transition-colors self-start sm:self-auto cursor-pointer"
           >
             Request Export
           </button>
         </div>
 
         {/* Account Deletion */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-rose-50 border border-rose-200">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-[#fe1e34]/10 border border-[#fe1e34]/30">
           <div className="space-y-0.5">
             <div className="flex items-center gap-2">
-              <Trash2 className="w-4 h-4 text-rose-600" />
-              <p className="text-sm font-bold text-rose-700">Permanently Delete Account</p>
+              <Trash2 className="w-4 h-4 text-[#fe1e34]" />
+              <p className="text-sm font-bold text-[#fe1e34]">Permanently Delete Account</p>
             </div>
-            <p className="text-xs text-rose-600">
+            <p className="text-xs text-[#fe1e34]/90 dark:text-[#fe1e34]/80">
               Irreversible action: purges all people, XP history, milestones, and achievements forever.
             </p>
           </div>
@@ -171,7 +171,7 @@ export function PrivacyControlsView() {
           <button
             type="button"
             onClick={() => setIsDeleteDialogOpen(true)}
-            className="px-4 py-2 text-xs font-bold text-white bg-rose-600 hover:bg-rose-500 rounded-full shadow-md shadow-rose-600/20 transition-colors self-start sm:self-auto cursor-pointer"
+            className="px-4 py-2 text-xs font-bold text-white bg-[#fe1e34] hover:bg-[#e0182d] rounded-full shadow-md shadow-[#fe1e34]/20 transition-colors self-start sm:self-auto cursor-pointer"
           >
             Delete Account
           </button>
