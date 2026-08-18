@@ -1,0 +1,6 @@
+{
+  "name": "HOEKDEX",
+  "description": "Private, gamified dating and relationship journal with milestones, XP progression, and privacy-first friend leaderboards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
