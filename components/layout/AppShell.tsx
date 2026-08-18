@@ -2,19 +2,22 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
+import { useAuth, RedirectToSignIn } from '@clerk/nextjs';
 import { AppSidebar } from '@/components/navigation/AppSidebar';
 import { Header } from '@/components/navigation/Header';
 import { BottomNav } from '@/components/navigation/BottomNav';
 import { AchievementUnlockModal } from '@/components/shared/AchievementUnlockModal';
 import { ToastContainer } from '@/components/shared/ToastContainer';
-
-const AUTH_PATHS = ['/login', '/signup', '/onboarding'];
+import { Loader2 } from 'lucide-react';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isLandingPage = pathname === '/' || pathname.startsWith('/landing');
-  const isAuthPage = AUTH_PATHS.some((p) => pathname.startsWith(p));
+  const { isLoaded, isSignedIn } = useAuth();
 
+  const isLandingPage = pathname === '/' || pathname.startsWith('/landing');
+  const isPublicAuthPage = pathname === '/login' || pathname === '/signup';
+
+  // Public Landing Page
   if (isLandingPage) {
     return (
       <main className="min-h-screen bg-[#080808] text-[#fcfcfc]">
@@ -24,7 +27,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (isAuthPage) {
+  // Public Login and Signup pages
+  if (isPublicAuthPage) {
     return (
       <main className="min-h-screen bg-[var(--bg-background)] text-[var(--text-foreground)] transition-colors duration-200">
         {children}
@@ -33,6 +37,33 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     );
   }
 
+  // Authenticated App Routes (Dashboard, People, Timeline, Onboarding, Settings, etc.)
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-[var(--bg-background)] flex items-center justify-center p-4 transition-colors duration-200">
+        <div className="flex flex-col items-center gap-3 text-stone-500 dark:text-[#B5B2B2]">
+          <Loader2 className="w-8 h-8 text-[#fe1e34] animate-spin" />
+          <span className="text-xs font-bold uppercase tracking-wider">Securing Vault...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isSignedIn) {
+    return <RedirectToSignIn />;
+  }
+
+  // Onboarding page (authenticated)
+  if (pathname.startsWith('/onboarding')) {
+    return (
+      <main className="min-h-screen bg-[var(--bg-background)] text-[var(--text-foreground)] transition-colors duration-200">
+        {children}
+        <ToastContainer />
+      </main>
+    );
+  }
+
+  // Standard Protected App Shell
   return (
     <div className="min-h-screen bg-[var(--bg-background)] text-[var(--text-foreground)] flex flex-col transition-colors duration-200">
       {/* Desktop Persistent Sidebar */}

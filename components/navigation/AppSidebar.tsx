@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useClerk } from '@clerk/nextjs';
 import { useHoekdex } from '@/context/hoekdex-context';
 import { cn } from '@/lib/utils';
 import {
@@ -16,11 +17,13 @@ import {
   Sparkles,
   Shield,
   User as UserIcon,
+  LogOut,
 } from 'lucide-react';
 import { PrivacyLock } from '../shared/PrivacyLock';
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const { signOut } = useClerk();
   const { user, pendingRequestsCount } = useHoekdex();
 
   const navItems = [
@@ -154,7 +157,7 @@ export function AppSidebar() {
       </nav>
 
       {/* User Footer Card */}
-      <div className="pt-3 mt-auto border-t border-[#E7E0D8] dark:border-[#393939] overflow-hidden flex-shrink-0">
+      <div className="pt-3 mt-auto border-t border-[#E7E0D8] dark:border-[#393939] overflow-hidden flex-shrink-0 space-y-2">
         <Link
           href="/profile"
           title={user.displayName}
@@ -177,6 +180,15 @@ export function AppSidebar() {
             </div>
           </div>
         </Link>
+
+        <button
+          type="button"
+          onClick={() => signOut({ redirectUrl: '/login' })}
+          className="w-full flex items-center gap-3 p-2 rounded-xl text-xs font-bold text-stone-500 dark:text-[#B5B2B2] hover:text-[#fe1e34] hover:bg-[#F5EFE6] dark:hover:bg-[#262525] transition-all cursor-pointer min-w-max opacity-0 group-hover/sidebar:opacity-100 duration-200"
+        >
+          <LogOut className="w-4 h-4 text-[#fe1e34]" />
+          <span>Sign Out</span>
+        </button>
       </div>
     </aside>
   );
