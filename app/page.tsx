@@ -1,5 +1,5 @@
-import { DashboardView } from '@/features/dashboard/DashboardView';
+import { LandingPage } from '@/features/landing/LandingPage';
 
 export default function HomePage() {
-  return <DashboardView />;
+  return <LandingPage />;
 }

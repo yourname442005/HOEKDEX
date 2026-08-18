@@ -12,11 +12,21 @@ const AUTH_PATHS = ['/login', '/signup', '/onboarding'];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const isLandingPage = pathname === '/' || pathname.startsWith('/landing');
   const isAuthPage = AUTH_PATHS.some((p) => pathname.startsWith(p));
+
+  if (isLandingPage) {
+    return (
+      <main className="min-h-screen bg-[#080808] text-[#fcfcfc]">
+        {children}
+        <ToastContainer />
+      </main>
+    );
+  }
 
   if (isAuthPage) {
     return (
-      <main className="min-h-screen bg-[#FAF5EF] text-[#1C1917]">
+      <main className="min-h-screen bg-[var(--bg-background)] text-[var(--text-foreground)] transition-colors duration-200">
         {children}
         <ToastContainer />
       </main>
@@ -24,7 +34,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF5EF] text-[#1C1917] flex flex-col">
+    <div className="min-h-screen bg-[var(--bg-background)] text-[var(--text-foreground)] flex flex-col transition-colors duration-200">
       {/* Desktop Persistent Sidebar */}
       <AppSidebar />
 

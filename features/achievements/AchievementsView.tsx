@@ -33,47 +33,52 @@ export function AchievementsView() {
   return (
     <div className="space-y-6 pb-24 lg:pb-12 max-w-7xl mx-auto">
       {/* Header */}
-      <PageHeader
-        title="Trophy Vault & Achievements"
-        description="Collectible rewards earned by logging milestone moments, discovering connections, and staying dedicated."
-        badge={
-          <span className="px-3 py-1 text-xs font-black bg-amber-500/15 border border-amber-500/40 text-amber-700 rounded-full">
-            {unlockedCount} / {achievements.length} Collected
-          </span>
-        }
-      />
+      <div>
+        <span className="text-[10px] font-mono text-[#fe1e34] uppercase tracking-widest block font-bold mb-1">
+          // YOUR PROGRESS
+        </span>
+        <PageHeader
+          title="Trophy Vault & Achievements"
+          description="Collectible rewards earned by logging milestone moments, discovering connections, and staying dedicated."
+          badge={
+            <span className="px-3 py-1 text-xs font-black bg-amber-500/15 border border-amber-500/40 text-amber-700 dark:text-amber-400 rounded-full">
+              {unlockedCount} / {achievements.length} Collected
+            </span>
+          }
+        />
+      </div>
 
       {/* Summary Stat Strip */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 rounded-2xl bg-[#FFFDF9] border border-[#E7E0D8] flex items-center gap-3.5 shadow-xs">
+        <div className="p-4 rounded-2xl bg-[#FFFDF9] dark:bg-[#171617] border border-[#E7E0D8] dark:border-[#393939] flex items-center gap-3.5 shadow-xs">
           <div className="w-11 h-11 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-600 shadow-inner">
             <Trophy className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-caption text-stone-500">Trophies Unlocked</p>
-            <p className="text-xl font-black text-[#1C1917]">
-              {unlockedCount} <span className="text-xs font-bold text-stone-500">/ {achievements.length}</span>
+            <p className="text-caption text-stone-500 dark:text-[#B5B2B2]">Trophies Unlocked</p>
+            <p className="text-xl font-black text-[#1C1917] dark:text-[#FCFCFC]">
+              {unlockedCount} <span className="text-xs font-bold text-stone-500 dark:text-[#B5B2B2]">/ {achievements.length}</span>
             </p>
           </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[#FFFDF9] border border-[#E7E0D8] flex items-center gap-3.5 shadow-xs">
-          <div className="w-11 h-11 rounded-2xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-600 shadow-inner">
+        <div className="p-4 rounded-2xl bg-[#FFFDF9] dark:bg-[#171617] border border-[#E7E0D8] dark:border-[#393939] flex items-center gap-3.5 shadow-xs">
+          <div className="w-11 h-11 rounded-2xl bg-[#fe1e34]/15 border border-[#fe1e34]/30 flex items-center justify-center text-[#fe1e34] shadow-inner">
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-caption text-stone-500">Bonus Trophy XP</p>
-            <p className="text-xl font-black text-rose-600">+{totalBonusXp} XP</p>
+            <p className="text-caption text-stone-500 dark:text-[#B5B2B2]">Bonus Trophy XP</p>
+            <p className="text-xl font-black text-[#fe1e34]">+{totalBonusXp} XP</p>
           </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[#FFFDF9] border border-[#E7E0D8] flex items-center gap-3.5 shadow-xs">
-          <div className="w-11 h-11 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-600 shadow-inner">
+        <div className="p-4 rounded-2xl bg-[#FFFDF9] dark:bg-[#171617] border border-[#E7E0D8] dark:border-[#393939] flex items-center gap-3.5 shadow-xs">
+          <div className="w-11 h-11 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shadow-inner">
             <Award className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-caption text-stone-500">Vault Mastery</p>
-            <p className="text-xl font-black text-[#1C1917]">
+            <p className="text-caption text-stone-500 dark:text-[#B5B2B2]">Vault Mastery</p>
+            <p className="text-xl font-black text-[#1C1917] dark:text-[#FCFCFC]">
               {Math.round((unlockedCount / Math.max(achievements.length, 1)) * 100)}%
             </p>
           </div>
@@ -88,8 +93,8 @@ export function AchievementsView() {
           className={cn(
             'px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap select-none',
             activeFilter === 'all'
-              ? 'bg-rose-600 text-white shadow-md shadow-rose-600/20'
-              : 'bg-[#F5EFE6] text-stone-600 hover:text-stone-900 border border-[#E7E0D8]'
+              ? 'bg-[#fe1e34] text-white shadow-md shadow-[#fe1e34]/20'
+              : 'bg-[#F5EFE6] dark:bg-[#262525] text-stone-600 dark:text-[#B5B2B2] hover:text-stone-900 dark:hover:text-[#FCFCFC] border border-[#E7E0D8] dark:border-[#393939]'
           )}
         >
           All ({achievements.length})
@@ -101,8 +106,8 @@ export function AchievementsView() {
           className={cn(
             'px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap select-none',
             activeFilter === 'unlocked'
-              ? 'bg-rose-600 text-white shadow-md shadow-rose-600/20'
-              : 'bg-[#F5EFE6] text-stone-600 hover:text-stone-900 border border-[#E7E0D8]'
+              ? 'bg-[#fe1e34] text-white shadow-md shadow-[#fe1e34]/20'
+              : 'bg-[#F5EFE6] dark:bg-[#262525] text-stone-600 dark:text-[#B5B2B2] hover:text-stone-900 dark:hover:text-[#FCFCFC] border border-[#E7E0D8] dark:border-[#393939]'
           )}
         >
           Unlocked ({unlockedCount})
@@ -114,8 +119,8 @@ export function AchievementsView() {
           className={cn(
             'px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap select-none',
             activeFilter === 'in_progress'
-              ? 'bg-rose-600 text-white shadow-md shadow-rose-600/20'
-              : 'bg-[#F5EFE6] text-stone-600 hover:text-stone-900 border border-[#E7E0D8]'
+              ? 'bg-[#fe1e34] text-white shadow-md shadow-[#fe1e34]/20'
+              : 'bg-[#F5EFE6] dark:bg-[#262525] text-stone-600 dark:text-[#B5B2B2] hover:text-stone-900 dark:hover:text-[#FCFCFC] border border-[#E7E0D8] dark:border-[#393939]'
           )}
         >
           In Progress ({inProgressCount})
@@ -128,7 +133,7 @@ export function AchievementsView() {
             'px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap select-none inline-flex items-center gap-1',
             activeFilter === 'legendary'
               ? 'bg-amber-600 text-white shadow-md shadow-amber-600/20'
-              : 'bg-amber-50 text-amber-800 border border-amber-300'
+              : 'bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800'
           )}
         >
           <Crown className="w-3.5 h-3.5" />
@@ -141,8 +146,8 @@ export function AchievementsView() {
           className={cn(
             'px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap select-none',
             activeFilter === 'locked'
-              ? 'bg-rose-600 text-white shadow-md shadow-rose-600/20'
-              : 'bg-[#F5EFE6] text-stone-600 hover:text-stone-900 border border-[#E7E0D8]'
+              ? 'bg-[#fe1e34] text-white shadow-md shadow-[#fe1e34]/20'
+              : 'bg-[#F5EFE6] dark:bg-[#262525] text-stone-600 dark:text-[#B5B2B2] hover:text-stone-900 dark:hover:text-[#FCFCFC] border border-[#E7E0D8] dark:border-[#393939]'
           )}
         >
           Locked ({lockedCount})

@@ -62,46 +62,52 @@ export function PersonGrid() {
   return (
     <div className="space-y-6 pb-24 lg:pb-12 max-w-7xl mx-auto">
       {/* Page Header */}
-      <PageHeader
-        title="My People Collection"
-        description={people.length > 0 ? "You're building quite a history. Every connection is private, encrypted, and yours." : "First one in the collection starts your personal history."}
-        showPrivacyLock
-        privacyTooltip="Your vault collection is 100% confidential."
-        badge={
-          <span className="px-3 py-1 text-xs font-black bg-rose-500/10 border border-rose-500/25 text-rose-600 rounded-full">
-            {people.length} {people.length === 1 ? 'Record' : 'Records'}
-          </span>
-        }
-        actions={
-          <Button
-            variant="default"
-            size="default"
-            onClick={() => setIsAddSheetOpen(true)}
-          >
-            <Plus className="w-4 h-4" />
-            <span>Add Connection</span>
-          </Button>
-        }
-      />
+      <div>
+        <span className="text-[10px] font-mono text-[#fe1e34] uppercase tracking-widest block font-bold mb-1">
+          // YOUR PEOPLE
+        </span>
+        <PageHeader
+          title="My People Collection"
+          description={people.length > 0 ? "You're building quite a history. Every connection is private, encrypted, and yours." : "First one in the collection starts your personal history."}
+          showPrivacyLock
+          privacyTooltip="Your vault collection is 100% confidential."
+          badge={
+            <span className="px-3 py-1 text-xs font-black bg-[#fe1e34]/10 border border-[#fe1e34]/25 text-[#fe1e34] rounded-full">
+              {people.length} {people.length === 1 ? 'Record' : 'Records'}
+            </span>
+          }
+          actions={
+            <Button
+              variant="default"
+              size="default"
+              onClick={() => setIsAddSheetOpen(true)}
+              className="bg-[#fe1e34] hover:bg-[#e0182d] text-white"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add Connection</span>
+            </Button>
+          }
+        />
+      </div>
 
       {/* Search & Filter Controls Bar */}
       <div className="space-y-3">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           {/* Search Box */}
           <div className="relative flex-1">
-            <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-stone-400 dark:text-[#525252] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <Input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name, handle, or notes..."
-              className="pl-10 pr-16"
+              className="pl-10 pr-16 bg-[#FFFDF9] dark:bg-[#171617] border-[#E7E0D8] dark:border-[#393939] text-[#1C1917] dark:text-[#FCFCFC]"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-stone-500 hover:text-stone-800"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-stone-500 dark:text-[#B5B2B2] hover:text-stone-800 dark:hover:text-[#FCFCFC]"
               >
                 Clear
               </button>
@@ -111,16 +117,16 @@ export function PersonGrid() {
           {/* Sort Dropdown */}
           <div className="flex items-center gap-2">
             <div className="relative flex-1 sm:flex-initial">
-              <div className="flex items-center gap-2 bg-[#FFFDF9] border border-[#E7E0D8] px-3.5 py-2.5 rounded-xl text-xs font-bold text-stone-700 shadow-xs">
-                <ArrowUpDown className="w-3.5 h-3.5 text-rose-600" />
+              <div className="flex items-center gap-2 bg-[#FFFDF9] dark:bg-[#171617] border border-[#E7E0D8] dark:border-[#393939] px-3.5 py-2.5 rounded-xl text-xs font-bold text-stone-700 dark:text-[#D4D2D2] shadow-xs">
+                <ArrowUpDown className="w-3.5 h-3.5 text-[#fe1e34]" />
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'recent' | 'name' | 'xp')}
-                  className="bg-transparent text-[#1C1917] focus:outline-none cursor-pointer pr-2"
+                  className="bg-transparent text-[#1C1917] dark:text-[#FCFCFC] focus:outline-none cursor-pointer pr-2"
                 >
-                  <option value="recent">Sort: Most Recent</option>
-                  <option value="xp">Sort: Highest XP</option>
-                  <option value="name">Sort: Name (A-Z)</option>
+                  <option value="recent" className="dark:bg-[#171617]">Sort: Most Recent</option>
+                  <option value="xp" className="dark:bg-[#171617]">Sort: Highest XP</option>
+                  <option value="name" className="dark:bg-[#171617]">Sort: Name (A-Z)</option>
                 </select>
               </div>
             </div>
@@ -132,8 +138,8 @@ export function PersonGrid() {
               className={cn(
                 'flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold border transition-colors cursor-pointer shadow-xs',
                 showFilters || selectedTier !== 'All' || selectedCategory !== 'All'
-                  ? 'bg-rose-500/10 text-rose-600 border-rose-500/30'
-                  : 'bg-[#FFFDF9] text-stone-600 border-[#E7E0D8] hover:text-stone-900'
+                  ? 'bg-[#fe1e34]/10 text-[#fe1e34] border-[#fe1e34]/30'
+                  : 'bg-[#FFFDF9] dark:bg-[#171617] text-stone-600 dark:text-[#B5B2B2] border-[#E7E0D8] dark:border-[#393939] hover:text-stone-900 dark:hover:text-[#FCFCFC]'
               )}
             >
               <SlidersHorizontal className="w-3.5 h-3.5" />

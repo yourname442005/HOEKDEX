@@ -28,40 +28,40 @@ export function FriendCard({
   const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
 
   return (
-    <div className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#FFFDF9] border border-[#E7E0D8] hover:border-rose-400/40 transition-colors shadow-xs">
+    <div className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#FFFDF9] dark:bg-[#171617] border border-[#E7E0D8] dark:border-[#393939] hover:border-[#fe1e34]/40 transition-colors shadow-xs">
       {/* User Info (Allowed Social Data ONLY) */}
       <div className="flex items-center gap-3.5 flex-1 min-w-0">
-        <div className="relative w-12 h-12 rounded-full overflow-hidden bg-[#F5EFE6] border border-[#E7E0D8] flex-shrink-0">
+        <div className="relative w-12 h-12 rounded-full overflow-hidden bg-[#F5EFE6] dark:bg-[#262525] border border-[#E7E0D8] dark:border-[#393939] flex-shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={friend.avatarUrl} alt={friend.displayName} className="w-full h-full object-cover" />
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <h4 className="text-sm sm:text-base font-extrabold text-[#1C1917] truncate">
+            <h4 className="text-sm sm:text-base font-extrabold text-[#1C1917] dark:text-[#FCFCFC] truncate">
               {friend.displayName}
             </h4>
             {friend.username && (
-              <span className="text-xs text-stone-500 font-medium truncate">
+              <span className="text-xs text-stone-500 dark:text-[#B5B2B2] font-medium truncate">
                 @{friend.username}
               </span>
             )}
             {friend.rank && (
-              <span className="text-[10px] font-black text-amber-700 bg-amber-500/15 px-2 py-0.5 rounded-full border border-amber-500/30">
+              <span className="text-[10px] font-black text-amber-700 dark:text-amber-400 bg-amber-500/15 px-2 py-0.5 rounded-full border border-amber-500/30">
                 Rank #{friend.rank}
               </span>
             )}
           </div>
 
-          <div className="flex items-center gap-3 text-xs text-stone-500 mt-0.5">
-            <div className="flex items-center gap-1 font-bold text-rose-600">
-              <Sparkles className="w-3 h-3 text-rose-500" />
+          <div className="flex items-center gap-3 text-xs text-stone-500 dark:text-[#B5B2B2] mt-0.5">
+            <div className="flex items-center gap-1 font-bold text-[#fe1e34]">
+              <Sparkles className="w-3 h-3 text-[#fe1e34]" />
               <span>{friend.totalXp} XP</span>
             </div>
 
             {friend.achievementBadge && (
-              <div className="hidden sm:flex items-center gap-1 text-[11px] font-semibold text-stone-600 bg-[#F5EFE6] px-2 py-0.5 rounded-md border border-[#E7E0D8]">
-                <Trophy className="w-3 h-3 text-amber-600" />
+              <div className="hidden sm:flex items-center gap-1 text-[11px] font-semibold text-stone-600 dark:text-[#D4D2D2] bg-[#F5EFE6] dark:bg-[#262525] px-2 py-0.5 rounded-md border border-[#E7E0D8] dark:border-[#393939]">
+                <Trophy className="w-3 h-3 text-amber-600 dark:text-amber-400" />
                 <span className="truncate max-w-[120px]">{friend.achievementBadge}</span>
               </div>
             )}
@@ -72,14 +72,14 @@ export function FriendCard({
       {/* Actions: Follow State Button & Overflow */}
       <div className="flex items-center gap-2 flex-shrink-0">
         {friend.isBlocked ? (
-          <span className="px-3.5 py-1.5 text-xs font-bold text-stone-400 bg-[#F5EFE6] rounded-full border border-[#E7E0D8]">
+          <span className="px-3.5 py-1.5 text-xs font-bold text-stone-400 dark:text-[#525252] bg-[#F5EFE6] dark:bg-[#262525] rounded-full border border-[#E7E0D8] dark:border-[#393939]">
             Blocked
           </span>
         ) : friend.isMutual ? (
           <button
             type="button"
             onClick={() => setIsUnfollowDialogOpen(true)}
-            className="px-4 py-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 hover:border-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-full transition-colors cursor-pointer"
+            className="px-4 py-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 hover:border-[#fe1e34] hover:text-[#fe1e34] rounded-full transition-colors cursor-pointer"
           >
             Friends
           </button>
@@ -87,7 +87,7 @@ export function FriendCard({
           <button
             type="button"
             onClick={() => setIsUnfollowDialogOpen(true)}
-            className="px-4 py-1.5 text-xs font-bold text-rose-600 bg-[#F5EFE6] border border-rose-300 hover:border-rose-500 hover:text-rose-700 rounded-full transition-colors cursor-pointer"
+            className="px-4 py-1.5 text-xs font-bold text-[#fe1e34] bg-[#F5EFE6] dark:bg-[#262525] border border-[#fe1e34]/30 hover:border-[#fe1e34] rounded-full transition-colors cursor-pointer"
           >
             Following
           </button>
@@ -95,7 +95,7 @@ export function FriendCard({
           <button
             type="button"
             onClick={() => onFollow(friend.userId)}
-            className="px-4 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-500 active:scale-95 rounded-full shadow-md shadow-rose-600/20 transition-all cursor-pointer"
+            className="px-4 py-1.5 text-xs font-bold text-white bg-[#fe1e34] hover:bg-[#e0182d] active:scale-95 rounded-full shadow-md shadow-[#fe1e34]/20 transition-all cursor-pointer"
           >
             Follow
           </button>

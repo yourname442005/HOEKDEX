@@ -60,36 +60,36 @@ export function LeaderboardRow({
       className={cn(
         'flex items-center justify-between p-3.5 sm:p-4 rounded-2xl border transition-all duration-200',
         isCurrentUser
-          ? 'bg-rose-50 border-rose-400 shadow-xs ring-1 ring-rose-400'
+          ? 'bg-[#fe1e34]/10 border-[#fe1e34]/40 shadow-xs ring-1 ring-[#fe1e34]/40'
           : rank <= 3
-          ? 'bg-[#FFFDF9] border-amber-500/40 hover:border-amber-500'
-          : 'bg-[#FFFDF9] border-[#E7E0D8] hover:border-stone-300'
+          ? 'bg-[#FFFDF9] dark:bg-[#171617] border-amber-500/40 hover:border-amber-500'
+          : 'bg-[#FFFDF9] dark:bg-[#171617] border-[#E7E0D8] dark:border-[#393939] hover:border-stone-300 dark:hover:border-stone-500'
       )}
     >
       {/* Rank & User Details */}
       <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
         <div className="flex-shrink-0">{renderRankBadge()}</div>
 
-        <div className="relative w-10 h-10 rounded-full overflow-hidden bg-[#F5EFE6] border border-[#E7E0D8] flex-shrink-0">
+        <div className="relative w-10 h-10 rounded-full overflow-hidden bg-[#F5EFE6] dark:bg-[#262525] border border-[#E7E0D8] dark:border-[#393939] flex-shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={entry.avatarUrl} alt={entry.displayName} className="w-full h-full object-cover" />
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h4 className={cn('text-sm sm:text-base font-extrabold truncate', isCurrentUser ? 'text-rose-700' : 'text-[#1C1917]')}>
+            <h4 className={cn('text-sm sm:text-base font-extrabold truncate', isCurrentUser ? 'text-[#fe1e34]' : 'text-[#1C1917] dark:text-[#FCFCFC]')}>
               {entry.displayName}
             </h4>
             {isCurrentUser && (
-              <span className="text-[10px] font-black uppercase text-rose-600 bg-rose-500/15 px-2 py-0.5 rounded-full border border-rose-500/30">
+              <span className="text-[10px] font-black uppercase text-[#fe1e34] bg-[#fe1e34]/15 px-2 py-0.5 rounded-full border border-[#fe1e34]/30">
                 You
               </span>
             )}
           </div>
 
           {entry.achievementBadge && (
-            <div className="flex items-center gap-1 text-[11px] text-stone-500 mt-0.5">
-              <Trophy className="w-3 h-3 text-amber-600 flex-shrink-0" />
+            <div className="flex items-center gap-1 text-[11px] text-stone-500 dark:text-[#B5B2B2] mt-0.5">
+              <Trophy className="w-3 h-3 text-amber-600 dark:text-amber-400 flex-shrink-0" />
               <span className="truncate max-w-[150px]">{entry.achievementBadge}</span>
             </div>
           )}
@@ -98,8 +98,8 @@ export function LeaderboardRow({
 
       {/* Period XP Score */}
       <div className="text-right flex-shrink-0">
-        <div className="flex items-center gap-1 text-sm sm:text-base font-black text-rose-600 bg-rose-500/10 border border-rose-500/25 px-3 py-1 rounded-full">
-          <Sparkles className="w-3.5 h-3.5 text-rose-500" />
+        <div className="flex items-center gap-1 text-sm sm:text-base font-black text-[#fe1e34] bg-[#fe1e34]/10 border border-[#fe1e34]/25 px-3 py-1 rounded-full">
+          <Sparkles className="w-3.5 h-3.5 text-[#fe1e34]" />
           <span>{displayXp.toLocaleString()} XP</span>
         </div>
       </div>
